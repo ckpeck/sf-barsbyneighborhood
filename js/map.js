@@ -78,28 +78,16 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
 
 // Fetch and load the GeoJSON
 fetch('data/zipcodes.json')
-  .then(response => response.json())
-  .then(rawData => {
-    const data = Array.isArray(rawData) ? rawData : rawData.data; // 🔥 ADD THIS LINE
+ .then(response => response.json())
+.then(rawData => {
+  const dataArray = Array.isArray(rawData) ? rawData : (rawData.data || []); // <-- FIX LINE
 
-    const geojsonFeatures = data
-      .filter(item => item.location)
-      .map(item => ({
-        type: 'Feature',
-        properties: {
-          name: item.location_name || 'Unnamed Area'
-        },
-        geometry: item.location
-      }));
-
-    const geojsonData = {
-      type: 'FeatureCollection',
-      features: geojsonFeatures
-    };
-
-    geojson = L.geoJSON(geojsonData, {
-      style: style,
-      onEachFeature: onEachFeature
-    }).addTo(map);
-  })
-  .catch(error => console.error('Error loading API data:', error));
+  const geojsonFeatures = dataArray
+    .filter(item => item.location) // keep only items with a location field
+    .map(item => ({
+      type: 'Feature',
+      properties: {
+        name: item.location_name || 'Unnamed Area'
+      },
+      geometry: item.location
+    }));
