@@ -77,7 +77,7 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
 });
 
 // Fetch and load the GeoJSON
-fetch('https://data.sfgov.org/resource/uq3t-6t53.json')
+fetch('data/zipcodes.json')
   .then(response => response.json())
   .then(data => {
     const geojsonFeatures = data
