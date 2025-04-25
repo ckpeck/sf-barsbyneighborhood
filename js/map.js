@@ -77,10 +77,10 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
 });
 
 // Fetch and load the GeoJSON
-fetch('data/zipcodes.json')
+fetch('data/zipcodes.geojson')
  .then(response => response.json())
 .then(rawData => {
-  const dataArray = Array.isArray(rawData) ? rawData : (rawData.data || []); // <-- FIX LINE
+  const dataArray = Array.isArray(rawData) ? rawData : (rawData.data || []); 
 
   const geojsonFeatures = dataArray
     .filter(item => item.location) // keep only items with a location field
