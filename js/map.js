@@ -79,7 +79,9 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
 // Fetch and load the GeoJSON
 fetch('data/zipcodes.json')
   .then(response => response.json())
-  .then(data => {
+  .then(rawData => {
+    const data = Array.isArray(rawData) ? rawData : rawData.data; // 🔥 ADD THIS LINE
+
     const geojsonFeatures = data
       .filter(item => item.location)
       .map(item => ({
