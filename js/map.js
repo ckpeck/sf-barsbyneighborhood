@@ -4,10 +4,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-let geojson; // to reference later
-let featureMap = {}; // to store features by zip code
+let geojson; // will hold the layer
+let featureMap = {}; // maps zip codes to layers
 
-// Style functions
+// Default style
 function style(feature) {
   return {
     color: "#3388ff",
@@ -38,10 +38,11 @@ function zoomToFeature(e) {
 
 function onEachFeature(feature, layer) {
   const props = feature.properties;
-  const zip = props.name; // assuming "name" is your zip code
+  const zip = props.zip_code || props.ZIP_CODE || props.name || 'Unknown'; // depending on your geojson fields
+
   if (!zip) return;
 
-  featureMap[zip] = layer; // store for later lookup
+  featureMap[zip] = layer;
 
   layer.bindPopup(`<b>${zip}</b>`);
 
@@ -67,7 +68,7 @@ function onEachFeature(feature, layer) {
   document.getElementById('zipDropdown').appendChild(option);
 }
 
-// Handle dropdown change
+// Dropdown event listener
 document.getElementById('zipDropdown').addEventListener('change', (e) => {
   const selectedZip = e.target.value;
   if (featureMap[selectedZip]) {
@@ -76,18 +77,13 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
   }
 });
 
-// Fetch and load the GeoJSON
+// 🧠 Correct simple fetch for GeoJSON
 fetch('data/sfzipcodes.geojson')
- .then(response => response.json())
- .then(rawData => {
-  const dataArray = Array.isArray(rawData) ? rawData : (rawData.data || []); // <-- FIX LINE
-
-  const geojsonFeatures = dataArray
-    .filter(item => item.location) // keep only items with a location field
-    .map(item => ({
-      type: 'Feature',
-      properties: {
-        name: item.location_name || 'Unnamed Area'
-      },
-      geometry: item.location
-    }));
+  .then(response => response.json())
+  .then(geojsonData => {
+    geojson = L.geoJSON(geojsonData, {
+      style: style,
+      onEachFeature: onEachFeature
+    }).addTo(map);
+  })
+  .catch(error => console.error('Error loading GeoJSON data:', error));
