@@ -1,13 +1,23 @@
-const map = L.map('map').setView([37.7749, -122.4194], 12);
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {...});
+const cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {...});
+const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {...});
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+const baseMaps = {
+  "OpenStreetMap": osm,
+  "Carto Light": cartoLight,
+  "Esri Satellite": esriSat
+};
 
-let geojson; // will hold the layer
-let featureMap = {}; // maps zip codes to layers
+L.control.layers(baseMaps).addTo(map);
 
-// Default style
+// Default base map
+osm.addTo(map);
+
+let geojson; 
+let featureMap = {}; 
+let allZips = []; // list of zip codes
+
+// Styles
 function style(feature) {
   return {
     color: "#3388ff",
@@ -38,11 +48,12 @@ function zoomToFeature(e) {
 
 function onEachFeature(feature, layer) {
   const props = feature.properties;
-  const zip = props.zip_code || props.ZIP_CODE || props.name || 'Unknown'; // depending on your geojson fields
+  const zip = props.zip_code || props.ZIPCODE || props.name || 'Unknown'; // Adjust field name if needed
 
   if (!zip) return;
 
   featureMap[zip] = layer;
+  allZips.push(zip); // store all ZIPs
 
   layer.bindPopup(`<b>${zip}</b>`);
 
@@ -52,37 +63,70 @@ function onEachFeature(feature, layer) {
     click: zoomToFeature
   });
 
-  // Add to sidebar list
+  // Sidebar List
   const li = document.createElement('li');
   li.textContent = zip;
+  li.setAttribute('data-zip', zip); // easier to filter later
   li.addEventListener('click', () => {
     map.fitBounds(layer.getBounds());
     layer.openPopup();
   });
   document.getElementById('zipList').appendChild(li);
-
-  // Add to dropdown
-  const option = document.createElement('option');
-  option.value = zip;
-  option.textContent = zip;
-  document.getElementById('zipDropdown').appendChild(option);
 }
 
-// Dropdown event listener
+// Populate dropdown AFTER loading all ZIPs
+function populateDropdown() {
+  const dropdown = document.getElementById('zipDropdown');
+  
+  // Sort ZIPs numerically
+  const sortedZips = allZips.sort((a, b) => a.localeCompare(b));
+  
+  for (const zip of sortedZips) {
+    const option = document.createElement('option');
+    option.value = zip;
+    option.textContent = zip;
+    dropdown.appendChild(option);
+  }
+}
+
+// Dropdown Change
 document.getElementById('zipDropdown').addEventListener('change', (e) => {
   const selectedZip = e.target.value;
-  if (featureMap[selectedZip]) {
+  
+  if (selectedZip && featureMap[selectedZip]) {
     map.fitBounds(featureMap[selectedZip].getBounds());
     featureMap[selectedZip].openPopup();
+  } else {
+    // Reset view to full San Francisco
+    map.setView([37.7749, -122.4194], 12);
   }
 });
 
-// 🧠 Correct simple fetch for GeoJSON
+// Live Sidebar Search
+document.getElementById('searchBox').addEventListener('input', (e) => {
+  const query = e.target.value.trim().toLowerCase();
+  const listItems = document.querySelectorAll('#zipList li');
+
+  listItems.forEach(li => {
+    const zip = li.getAttribute('data-zip');
+    if (zip.toLowerCase().includes(query)) {
+      li.style.display = '';
+    } else {
+      li.style.display = 'none';
+    }
+  });
+});
+
+// Fetch the GeoJSON
 fetch('data/sfzipcodes.geojson')
+  .then(response => response.json())
   .then(geojsonData => {
     geojson = L.geoJSON(geojsonData, {
       style: style,
       onEachFeature: onEachFeature
     }).addTo(map);
+
+    populateDropdown(); // fill dropdown once features are loaded
   })
   .catch(error => console.error('Error loading GeoJSON data:', error));
+
