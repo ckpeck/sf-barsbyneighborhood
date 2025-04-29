@@ -119,7 +119,6 @@ document.getElementById('searchBox').addEventListener('input', (e) => {
 
 // Fetch the GeoJSON
 fetch('data/sfzipcodes.geojson')
-  .then(response => response.json())
   .then(geojsonData => {
     geojson = L.geoJSON(geojsonData, {
       style: style,
