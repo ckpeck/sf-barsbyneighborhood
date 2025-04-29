@@ -79,7 +79,6 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
 
 // 🧠 Correct simple fetch for GeoJSON
 fetch('data/sfzipcodes.geojson')
-  .then(response => response.json())
   .then(geojsonData => {
     geojson = L.geoJSON(geojsonData, {
       style: style,
