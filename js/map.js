@@ -1,17 +1,8 @@
-const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {...});
-const cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {...});
-const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {...});
+const map = L.map('map').setView([37.7749, -122.4194], 12);
 
-const baseMaps = {
-  "OpenStreetMap": osm,
-  "Carto Light": cartoLight,
-  "Esri Satellite": esriSat
-};
-
-L.control.layers(baseMaps).addTo(map);
-
-// Default base map
-osm.addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
+}).addTo(map);
 
 let geojson; 
 let featureMap = {}; 
