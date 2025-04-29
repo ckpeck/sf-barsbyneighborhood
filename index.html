@@ -1,33 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Bars in San Francisco</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>San Francisco Bars by Neighborhood</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  
+  <!-- Your custom CSS -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
+  <!-- Banner/Header -->
   <header id="pageHeader">
-    <h1>Every dang bar in San Francisco</h1>
+    <h1>San Francisco Bars by Neighborhood</h1>
   </header>
 
+  <!-- Main layout: Sidebar + Map -->
   <div id="main">
+    
+    <!-- Sidebar -->
     <div id="sidebar">
-  <h2>SF ZIP Codes</h2>
+      <h2>SF ZIP Codes</h2>
+      
+      <!-- Search box -->
+      <input type="text" id="searchBox" placeholder="Search ZIP..." />
 
-  <input type="text" id="searchBox" placeholder="Search ZIP..." />
+      <!-- Dropdown -->
+      <select id="zipDropdown">
+        <option value="">🔎 Select a ZIP Code</option>
+      </select>
 
-  <select id="zipDropdown">
-    <option value="">🔎 Select a ZIP Code</option>
-  </select>
+      <!-- List of ZIPs -->
+      <ul id="zipList"></ul>
+    </div>
 
-  <ul id="zipList"></ul>
-</div>
-</div>
-  <div id="map"></div>
+    <!-- Map -->
+    <div id="map"></div>
 
+  </div>
+
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Your custom JS -->
   <script src="js/map.js"></script>
+
+  <!-- (Optional) Shrink header on scroll -->
+  <script>
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('pageHeader');
+      if (window.scrollY > 20) {
+        header.style.padding = "10px 0";
+        header.style.fontSize = "1.5em";
+      } else {
+        header.style.padding = "20px 0";
+        header.style.fontSize = "1.8em";
+      }
+    });
+  </script>
+
 </body>
 </html>
