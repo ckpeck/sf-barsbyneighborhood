@@ -142,7 +142,7 @@ function renderPoints() {
     },
     pointToLayer: (feature, latlng) => {
       const props = feature.properties;
-      const count = parseFloat(props.CountOfAttendees) || 0;
+      const count = parseFloat(props.countofattendance) || 0;
 
       // Define a color scale based on count, val is function only variable, count is called below in marker
             function getColor(val) {
