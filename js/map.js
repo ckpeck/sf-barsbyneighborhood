@@ -104,8 +104,11 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
           const barid = String(feature.properties.barid).trim().toLowerCase();
           const match = attributeData.find(row => String(row.barid).trim().toLowerCase() === barid);
 
-          if (match) {
-            feature.properties = { ...feature.properties, ...match };
+           if (!match) {
+             console.warn(`❌ No match for barid: ${barid}`);
+           } else {
+             console.log(`✅ Joined barid: ${barid}`, match);
+             feature.properties = { ...feature.properties, ...match };
           }
         });
 
