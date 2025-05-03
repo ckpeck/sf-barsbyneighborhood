@@ -121,3 +121,8 @@ fetch('data/sfzipcodes.geojson')
     populateDropdown(); // fill dropdown once features are loaded
   })
   .catch(error => console.error('Error loading GeoJSON data:', error));
+
+// Sidebar toggle button
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+  document.body.classList.toggle('sidebar-hidden');
+});
