@@ -114,23 +114,40 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
         L.geoJSON(pointGeojson, {
           pointToLayer: (feature, latlng) => {
             const props = feature.properties;
+            const count = parseFloat(props.countofattendees) || 0;
+
+      // Define a color scale based on count
+            function getColor(val) {
+              return val > 5 ? '#800026' :
+                     val > 4  ? '#BD0026' :
+                     val > 3  ? '#E31A1C' :
+                     val > 2  ? '#FC4E2A' :
+                     val > 1  ? '#FD8D3C' :
+                     val > 0   ? '#FEB24C' :
+                       '#FFEDA0'; // lightest for 0
+            }
+            
             const marker = L.circleMarker(latlng, {
               radius: 6,
               color: '#222',
-              fillColor: '#0088cc',
-              fillOpacity: 0.8,
+              fillColor: getColor(count),
+              fillOpacity: 0.85,
               weight: 1
             });
 
+    // Show all relevant joined data in popup
             const popupContent = `
-              <b>${props.name || "Unnamed Bar"}</b><br>
-              Status: ${props.status || "N/A"}<br>
-              Neighborhood: ${props.neighborhood || "N/A"}<br>
-              Notes: ${props.notes || ""}
+            <b>${props.name || "Unnamed Bar"}</b><br>
+            <b>Status:</b> ${props.status || "N/A"}<br>
+            <b>Neighborhood:</b> ${props.neighborhood || "N/A"}<br>
+            <b>Attendees:</b> ${props.countofattendees || "0"}<br>
+            <b>Type:</b> ${props.type || "N/A"}<br>
+            <b>Notes:</b> ${props.notes || ""}
             `;
             marker.bindPopup(popupContent);
             return marker;
           }
+
         }).addTo(map);
       });
   }
