@@ -139,10 +139,10 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
 
     // Show all relevant joined data in popup
             const popupContent = `
-            <b>${props.Bar Name || "Unnamed Bar"}</b><br>
-            <b>Address:</b> ${props.Street Address || "N/A"}<br>
+            <b>${props.["Bar Name"] || "Unnamed Bar"}</b><br>
+            <b>Address:</b> ${props.["Street Address"] || "N/A"}<br>
             <b>Neighborhood:</b> ${props.Neighborhood || "N/A"}<br>
-            <b>Happy Hour:</b> ${props.Happy Hour || "None"}<br>
+            <b>Happy Hour:</b> ${props.["Happy Hour"] || "None"}<br>
             <b>Style:</b> ${props.Style || "N/A"}<br>
             <b>Comments:</b> ${props.Comments || ""}
             `;
