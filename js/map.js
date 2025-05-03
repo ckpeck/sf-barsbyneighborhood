@@ -89,6 +89,52 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
     map.setView([37.7749, -122.4194], 12); // Reset view
   }
 });
+// Load external attributes from Google Sheets using PapaParse
+Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oSbIqTDmfHXkPF4VgZfLKe0ZW_Zt3DI56JuulaSEPnHLDSHsgLisTRPxmq1AG/pub?output=csv", {
+  download: true,
+  header: true,
+  complete: function(results) {
+    const attributeData = results.data;
+
+    // Load GeoJSON points
+    fetch("data/sfbars_coordsandneighborhoods_20250502.geojson")
+      .then(res => res.json())
+      .then(pointGeojson => {
+        // Match by barid
+        pointGeojson.features.forEach(feature => {
+          const barid = feature.properties.barid;
+          const match = attributeData.find(row => row.barid === barid);
+
+          if (match) {
+            feature.properties = { ...feature.properties, ...match };
+          }
+        });
+
+        // Add updated points to the map
+        L.geoJSON(pointGeojson, {
+          pointToLayer: (feature, latlng) => {
+            const props = feature.properties;
+            const marker = L.circleMarker(latlng, {
+              radius: 6,
+              color: '#222',
+              fillColor: '#0088cc',
+              fillOpacity: 0.8,
+              weight: 1
+            });
+
+            const popupContent = `
+              <b>${props.name || "Unnamed Bar"}</b><br>
+              Status: ${props.status || "N/A"}<br>
+              Neighborhood: ${props.neighborhood || "N/A"}<br>
+              Notes: ${props.notes || ""}
+            `;
+            marker.bindPopup(popupContent);
+            return marker;
+          }
+        }).addTo(map);
+      });
+  }
+});
 
 // Sidebar toggle
 document.getElementById('sidebarToggle').addEventListener('click', () => {
