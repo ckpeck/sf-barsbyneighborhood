@@ -31,7 +31,6 @@ function highlightFeature(e) {
     fillColor: '#ffcc00',
     fillOpacity: 0.7
   });
-  layer.bringToFront();
 }
 
 function resetHighlight(e) {
