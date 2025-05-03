@@ -118,8 +118,8 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
             const props = feature.properties;
             const count = parseFloat(props.countofattendance) || 0;
 
-      // Define a color scale based on count
-            function getColor(count) {
+      // Define a color scale based on count, val is function only variable, count is called below in marker
+            function getColor(val) {
               return val > 5 ? '#800026' :
                      val > 4 ? '#BD0026' :
                      val > 3 ? '#E31A1C' :
