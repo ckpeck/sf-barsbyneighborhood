@@ -101,8 +101,8 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
       .then(pointGeojson => {
         // Match by barid
         pointGeojson.features.forEach(feature => {
-          const barid = feature.properties.barid;
-          const match = attributeData.find(row => row.barid === barid);
+          const barid = String(feature.properties.barid).trim().toLowerCase();
+          const match = attributeData.find(row => String(row.barid).trim().toLowerCase() === barid);
 
           if (match) {
             feature.properties = { ...feature.properties, ...match };
@@ -118,11 +118,11 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
       // Define a color scale based on count
             function getColor(val) {
               return val > 5 ? '#800026' :
-                     val > 4  ? '#BD0026' :
-                     val > 3  ? '#E31A1C' :
-                     val > 2  ? '#FC4E2A' :
-                     val > 1  ? '#FD8D3C' :
-                     val > 0   ? '#FEB24C' :
+                     val > 4 ? '#BD0026' :
+                     val > 3 ? '#E31A1C' :
+                     val > 2 ? '#FC4E2A' :
+                     val > 1 ? '#FD8D3C' :
+                     val > 0 ? '#FEB24C' :
                        '#FFEDA0'; // lightest for 0
             }
             
