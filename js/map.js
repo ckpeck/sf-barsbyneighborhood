@@ -116,10 +116,10 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
         L.geoJSON(pointGeojson, {
           pointToLayer: (feature, latlng) => {
             const props = feature.properties;
-            const count = parseFloat(props.countofattendees) || 0;
+            const count = parseFloat(props.countofattendance) || 0;
 
       // Define a color scale based on count
-            function getColor(val) {
+            function getColor(count) {
               return val > 5 ? '#800026' :
                      val > 4 ? '#BD0026' :
                      val > 3 ? '#E31A1C' :
