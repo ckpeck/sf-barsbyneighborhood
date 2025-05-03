@@ -1,20 +1,18 @@
 const map = L.map('map', {
   center: [37.7749, -122.4194],
-  zoom: 13,
-  minZoom: 11,
+  zoom: 12,
+  minZoom: 10,
   maxZoom: 18
 });
 
-
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-let geojson; 
-let featureMap = {}; 
-let allZips = []; // list of zip codes
+let geojson;
+let featureMap = {};
+let allZips = [];
 
-// Styles
 function style(feature) {
   return {
     color: "#3388ff",
@@ -50,6 +48,7 @@ function onEachFeature(feature, layer) {
   if (!zip) return;
 
   featureMap[zip] = layer;
+  allZips.push(zip);
 
   layer.bindPopup(`<b>${zip}</b>`);
 
@@ -59,18 +58,16 @@ function onEachFeature(feature, layer) {
     click: zoomToFeature
   });
 
-  // Only dropdown logic remains
+  // Add to dropdown only
   const option = document.createElement('option');
   option.value = zip;
   option.textContent = zip;
   document.getElementById('zipDropdown').appendChild(option);
 }
 
-// Populate dropdown AFTER loading all ZIPs
+// Populate dropdown (sorted ZIPs)
 function populateDropdown() {
   const dropdown = document.getElementById('zipDropdown');
-  
-  // Sort ZIPs numerically
   const sortedZips = allZips.sort((a, b) => a.localeCompare(b));
   
   for (const zip of sortedZips) {
@@ -81,35 +78,23 @@ function populateDropdown() {
   }
 }
 
-// Dropdown Change
+// Dropdown interaction
 document.getElementById('zipDropdown').addEventListener('change', (e) => {
   const selectedZip = e.target.value;
-  
-  if (selectedZip && featureMap[selectedZip]) {
+  if (featureMap[selectedZip]) {
     map.fitBounds(featureMap[selectedZip].getBounds());
     featureMap[selectedZip].openPopup();
   } else {
-    // Reset view to full San Francisco
-    map.setView([37.7749, -122.4194], 12);
+    map.setView([37.7749, -122.4194], 12); // Reset view
   }
 });
 
-// Live Sidebar Search
-document.getElementById('searchBox').addEventListener('input', (e) => {
-  const query = e.target.value.trim().toLowerCase();
-  const listItems = document.querySelectorAll('#zipList li');
-
-  listItems.forEach(li => {
-    const zip = li.getAttribute('data-zip');
-    if (zip.toLowerCase().includes(query)) {
-      li.style.display = '';
-    } else {
-      li.style.display = 'none';
-    }
-  });
+// Sidebar toggle
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+  document.body.classList.toggle('sidebar-hidden');
 });
 
-// Fetch the GeoJSON
+// Load GeoJSON
 fetch('data/sfzipcodes.geojson')
   .then(response => response.json())
   .then(geojsonData => {
@@ -118,11 +103,6 @@ fetch('data/sfzipcodes.geojson')
       onEachFeature: onEachFeature
     }).addTo(map);
 
-    populateDropdown(); // fill dropdown once features are loaded
+    populateDropdown();
   })
   .catch(error => console.error('Error loading GeoJSON data:', error));
-
-// Sidebar toggle button
-document.getElementById('sidebarToggle').addEventListener('click', () => {
-  document.body.classList.toggle('sidebar-hidden');
-});
