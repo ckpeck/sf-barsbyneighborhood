@@ -1,4 +1,10 @@
-const map = L.map('map').setView([37.7749, -122.4194], 12);
+const map = L.map('map', {
+  center: [37.7749, -122.4194],
+  zoom: 13,
+  minZoom: 11,
+  maxZoom: 18
+});
+
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
@@ -39,12 +45,11 @@ function zoomToFeature(e) {
 
 function onEachFeature(feature, layer) {
   const props = feature.properties;
-  const zip = props.zip_code || props.ZIPCODE || props.name || 'Unknown'; // Adjust field name if needed
+  const zip = props.zip_code || props.ZIPCODE || props.name || 'Unknown';
 
   if (!zip) return;
 
   featureMap[zip] = layer;
-  allZips.push(zip); // store all ZIPs
 
   layer.bindPopup(`<b>${zip}</b>`);
 
@@ -54,15 +59,11 @@ function onEachFeature(feature, layer) {
     click: zoomToFeature
   });
 
-  // Sidebar List
-  const li = document.createElement('li');
-  li.textContent = zip;
-  li.setAttribute('data-zip', zip); // easier to filter later
-  li.addEventListener('click', () => {
-    map.fitBounds(layer.getBounds());
-    layer.openPopup();
-  });
-  document.getElementById('zipList').appendChild(li);
+  // Only dropdown logic remains
+  const option = document.createElement('option');
+  option.value = zip;
+  option.textContent = zip;
+  document.getElementById('zipDropdown').appendChild(option);
 }
 
 // Populate dropdown AFTER loading all ZIPs
