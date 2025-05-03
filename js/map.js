@@ -182,8 +182,6 @@ function renderPoints() {
           }
 
         }).addTo(map);
-      });
-  }
 });
 
 // --- Hook up filter inputs ---
