@@ -24,12 +24,35 @@
     <div id="map"></div>
 
     <div id="sidebar">
-      <h2>ZIP Codes</h2>
-      <select id="zipDropdown">
-        <option value="">🔎 Select a ZIP Code</option>
-      </select>
-    </div>
-  </div>
+  <h2>Filter Bars</h2>
+
+  <!-- Count Filter -->
+  <label for="attendeeFilter">Min Attendees</label>
+  <select id="attendeeFilter">
+    <option value="0">0+</option>
+    <option value="10">10+</option>
+    <option value="25">25+</option>
+    <option value="50">50+</option>
+    <option value="75">75+</option>
+  </select>
+
+  <!-- Style Filter -->
+  <label for="styleFilter">Style</label>
+  <select id="styleFilter">
+    <option value="">All</option>
+    <!-- We'll populate this dynamically -->
+  </select>
+
+  <!-- Bar Name Search -->
+  <label for="nameSearch">Search by Name</label>
+  <input type="text" id="nameSearch" placeholder="Bar Name" />
+
+  <!-- ZIP Dropdown stays -->
+  <label for="zipDropdown">ZIP</label>
+  <select id="zipDropdown">
+    <option value="">🔎 Select a ZIP Code</option>
+  </select>
+</div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
