@@ -179,10 +179,9 @@ function renderPoints() {
             `;
             marker.bindPopup(popupContent);
             return marker;
-          }
-
-        }).addTo(map);
-});
+    }
+  }).addTo(map);
+}
 
 // --- Hook up filter inputs ---
 ["attendeeFilter", "styleFilter", "nameSearch"].forEach(id => {
