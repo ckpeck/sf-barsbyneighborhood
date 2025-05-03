@@ -1,57 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>San Francisco Bars by Neighborhood</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  
-  <!-- Your custom CSS -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body class="sidebar-hidden"> <!-- Sidebar starts hidden -->
 
-  <!-- Banner/Header -->
   <header id="pageHeader">
-    <h1>San Francisco Bars by Neighborhood</h1>
+    <h1>Every dang bar in San Francisco</h1>
   </header>
 
-  <!-- New Sidebar Toggle Button -->
-  <button id="sidebarToggle" title="Toggle Sidebar">☰ ZIPs</button>
+  <!-- Toggle Button -->
+  <button id="sidebarToggle" title="Toggle ZIP Sidebar">☰ ZIPs</button>
 
-  <!-- Main layout: Sidebar + Map -->
   <div id="main">
-    
-    <!-- Sidebar -->
-    <div id="sidebar">
-      <h2>SF ZIP Codes</h2>
-      
-      <!-- Search box -->
-      <input type="text" id="searchBox" placeholder="Search ZIP..." />
+    <div id="map"></div>
 
-      <!-- Dropdown -->
+    <div id="sidebar">
+      <h2>ZIP Codes</h2>
       <select id="zipDropdown">
         <option value="">🔎 Select a ZIP Code</option>
       </select>
-
     </div>
-
-    <!-- Map -->
-    <div id="map"></div>
-
   </div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-  <!-- Your custom JS -->
   <script src="js/map.js"></script>
 
-  <!-- (Optional) Shrink header on scroll -->
+  <!-- Optional: Shrinking header on scroll -->
   <script>
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       const header = document.getElementById('pageHeader');
       if (window.scrollY > 20) {
         header.style.padding = "10px 0";
@@ -62,6 +46,5 @@
       }
     });
   </script>
-
 </body>
 </html>
