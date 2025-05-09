@@ -123,26 +123,26 @@ function renderPoints() {
     map.removeLayer(pointLayer);
   }
 
-  const minAttendees = parseInt(document.getElementById('attendeeFilter').value) || 0;
+  const minVisited = parseInt(document.getElementById('attendeeFilter').value) || 0;
   const selectedStyle = document.getElementById('styleFilter').value;
   const searchText = document.getElementById('nameSearch').value.trim().toLowerCase();
 
   pointLayer = L.geoJSON(allPointsGeoJSON, {
     filter: feature => {
       const props = feature.properties;
-      const count = parseFloat(props.CountOfAttendees) || 0;
+      const visitedCount = parseInt(props.VisitedByCount) || 0;  // ← adjust to your spreadsheet column name
       const style = (props.Style || "").toLowerCase();
       const name = (props["Bar Name"] || "").toLowerCase();
 
       return (
-        count >= minAttendees &&
+        visitedCount >= minAttendees &&
         (selectedStyle === "" || style === selectedStyle.toLowerCase()) &&
         (searchText === "" || name.includes(searchText))
       );
     },
     pointToLayer: (feature, latlng) => {
       const props = feature.properties;
-      const count = parseFloat(props.countofattendance) || 0;
+      const count = parseFloat(props.VisitedByCount) || 0;
 
       // Define a color scale based on count, val is function only variable, count is called below in marker
             function getColor(val) {
