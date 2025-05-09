@@ -146,12 +146,12 @@ function renderPoints() {
 
       // Define a color scale based on count, val is function only variable, count is called below in marker
             function getColor(val) {
-              return val > 5 ? '#800026' :
-                     val > 4 ? '#BD0026' :
-                     val > 3 ? '#E31A1C' :
-                     val > 2 ? '#FC4E2A' :
-                     val > 1 ? '#FD8D3C' :
-                     val > 0 ? '#FEB24C' :
+              return val > 5 ? '#000000' :
+                     val > 4 ? '#016C59' :
+                     val > 3 ? '#1C9099' :
+                     val > 2 ? '#67A9CF' :
+                     val > 1 ? '#BDC9E1' :
+                     val > 0 ? '#F6EFF7' :
                        '#FFEDA0'; // lightest for 0
             }
             
