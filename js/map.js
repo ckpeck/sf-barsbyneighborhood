@@ -130,12 +130,13 @@ function renderPoints() {
   pointLayer = L.geoJSON(allPointsGeoJSON, {
     filter: feature => {
       const props = feature.properties;
+      
       const visitedCount = parseInt(props.VisitedByCount) || 0;  // ← adjust to your spreadsheet column name
       const style = (props.Style || "").toLowerCase();
       const name = (props["Bar Name"] || "").toLowerCase();
 
       return (
-        visitedCount >= minAttendees &&
+        visitedCount >= minVisited &&
         (selectedStyle === "" || style === selectedStyle.toLowerCase()) &&
         (searchText === "" || name.includes(searchText))
       );
