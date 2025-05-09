@@ -166,8 +166,8 @@ function renderPoints() {
     // Show all relevant joined data in popup
             const popupContent = `
             <b>${props["Bar Name"] || "Unnamed Bar"}</b><br>
-            <b>Address:</b> ${props["St Address"] || "N/A"}<br>
-            <b>Neighborhood:</b> ${props["Neighborhood"] || "N/A"}<br>
+            <b>Address:</b> ${props["St Address"] || "No address in sheet"}<br>
+            <b>Neighborhood:</b> ${props["Neighborhood"] || "Add neighborhood to sheet"}<br>
             <b>Happy Hour:</b> ${props["Happy Hour"] || "None"}<br>
             <b>Style:</b> ${props["Style"] || "N/A"}<br>
             <b>Allison:</b> ${props["Allison"] || "no"}<br>
