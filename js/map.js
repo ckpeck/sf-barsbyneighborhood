@@ -28,42 +28,31 @@ function style(feature) {
   };
 }
 
-// --- ZIP highlight/reset/zoom behavior ---
-function highlightFeature(e) {
-  const layer = e.target;
-  layer.setStyle({
-    weight: 4,
-    color: '#666',
-    fillColor: '#ffcc00',
-    fillOpacity: 0.7
-  });
+// --- ZIP polygon styling (borders only, no fill) ---
+function style(feature) {
+  return {
+    color: "#3388ff",
+    weight: 1.5,
+    fillOpacity: 0
+  };
 }
 
-function resetHighlight(e) {
-  geojson.resetStyle(e.target);
-}
-
-function zoomToFeature(e) {
-  map.fitBounds(e.target.getBounds());
-}
-
-// --- ZIP feature setup ---
+// --- ZIP feature setup (no hover/click, just labels) ---
 function onEachFeature(feature, layer) {
   const props = feature.properties;
   const zip = props.zip_code || props.ZIPCODE || props.name || 'Unknown';
-
   if (!zip) return;
 
   featureMap[zip] = layer;
   allZips.push(zip);
 
-  layer.bindPopup(`<b>${zip}</b>`);
-
-  layer.on({
-    mouseover: highlightFeature,
-    mouseout: resetHighlight,
-    click: zoomToFeature
-  });
+  // Add permanent label (hidden until zoom >= 13)
+  layer.bindTooltip(zip, {
+    permanent: true,
+    direction: "center",
+    className: "zip-label",
+    opacity: 0.8
+  }).openTooltip();
 
   // Add to dropdown
   const option = document.createElement('option');
@@ -71,6 +60,14 @@ function onEachFeature(feature, layer) {
   option.textContent = zip;
   document.getElementById('zipDropdown').appendChild(option);
 }
+
+// --- Control label visibility by zoom ---
+map.on("zoomend", () => {
+  const visible = map.getZoom() >= 13;
+  document.querySelectorAll('.zip-label').forEach(el => {
+    el.style.display = visible ? 'block' : 'none';
+  });
+});
 
 // --- Populate ZIP dropdown ---
 function populateDropdown() {
@@ -89,13 +86,12 @@ document.getElementById('zipDropdown').addEventListener('change', (e) => {
   const selectedZip = e.target.value;
   if (featureMap[selectedZip]) {
     map.fitBounds(featureMap[selectedZip].getBounds());
-    featureMap[selectedZip].openPopup();
   } else {
     map.setView([37.7749, -122.4194], 12);
   }
 });
 
-// --- Sidebar toggle ---
+// --- Sidebar toggle (button text is set in HTML to "Menu") ---
 document.getElementById('sidebarToggle').addEventListener('click', () => {
   document.body.classList.toggle('sidebar-hidden');
 });
@@ -130,8 +126,7 @@ function renderPoints() {
   pointLayer = L.geoJSON(allPointsGeoJSON, {
     filter: feature => {
       const props = feature.properties;
-      
-      const visitedCount = parseInt(props.VisitedByCount) || 0;  // ← adjust to your spreadsheet column name
+      const visitedCount = parseInt(props.VisitedByCount) || 0;
       const style = (props.Style || "").toLowerCase();
       const name = (props["Bar Name"] || "").toLowerCase();
 
@@ -145,44 +140,60 @@ function renderPoints() {
       const props = feature.properties;
       const count = parseFloat(props.VisitedByCount) || 0;
 
-      // Define a color scale based on count, val is function only variable, count is called below in marker
-            function getColor(val) {
-              return val > 5 ? '#000000' :
-                     val > 4 ? '#016C59' :
-                     val > 3 ? '#1C9099' :
-                     val > 2 ? '#67A9CF' :
-                     val > 1 ? '#BDC9E1' :
-                     val > 0 ? '#F6EFF7' :
-                       '#FFEDA0'; // lightest for 0
-            }
-            
-            const marker = L.circleMarker(latlng, {
-              radius: 6,
-              color: '#222',
-              fillColor: getColor(count),
-              fillOpacity: 0.85,
-              weight: 1
-            });
-
-    // Show all relevant joined data in popup
-            const popupContent = `
-            <b>${props["Bar Name"] || "Unnamed Bar"}</b><br>
-            <b>Address:</b> ${props["St Address"] || "No address in sheet"}<br>
-            <b>Neighborhood:</b> ${props["Neighborhood"] || "Add neighborhood to sheet"}<br>
-            <b>Happy Hour:</b> ${props["Happy Hour"] || "None"}<br>
-            <b>Style:</b> ${props["Style"] || "N/A"}<br>
-            <b>Allison:</b> ${props["Allison"] || "no"}<br>
-            <b>Ben:</b> ${props["Ben"] || "no"}<br>
-            <b>Kyle:</b> ${props["Kyle"] || "no"}<br>
-            <b>Christina:</b> ${props["Christina"] || "no"}<br>
-            <b>Brian:</b> ${props["Brian"] || "no"}<br>
-            <b>Comments:</b> ${props["Comments"] || ""}
-            `;
-            marker.bindPopup(popupContent);
-            return marker;
-          }
-        }).addTo(map);
+      function getColor(val) {
+        return val > 5 ? '#000000' :
+               val > 4 ? '#016C59' :
+               val > 3 ? '#1C9099' :
+               val > 2 ? '#67A9CF' :
+               val > 1 ? '#BDC9E1' :
+               val > 0 ? '#F6EFF7' :
+                         '#FFEDA0';
       }
+
+      const marker = L.circleMarker(latlng, {
+        radius: 6,
+        color: '#222',
+        fillColor: getColor(count),
+        fillOpacity: 0.85,
+        weight: 1
+      });
+
+      const popupContent = `
+        <b>${props["Bar Name"] || "Unnamed Bar"}</b><br>
+        <b>Address:</b> ${props["St Address"] || "No address in sheet"}<br>
+        <b>Neighborhood:</b> ${props["Neighborhood"] || "Add neighborhood to sheet"}<br>
+        <b>Happy Hour:</b> ${props["Happy Hour"] || "None"}<br>
+        <b>Style:</b> ${props["Style"] || "N/A"}<br>
+        <b>Allison:</b> ${props["Allison"] || "no"}<br>
+        <b>Ben:</b> ${props["Ben"] || "no"}<br>
+        <b>Kyle:</b> ${props["Kyle"] || "no"}<br>
+        <b>Christina:</b> ${props["Christina"] || "no"}<br>
+        <b>Brian:</b> ${props["Brian"] || "no"}<br>
+        <b>Comments:</b> ${props["Comments"] || ""}
+      `;
+      marker.bindPopup(popupContent);
+      return marker;
+    }
+  }).addTo(map);
+
+  // If search by name, zoom to first matching bar
+  if (searchText) {
+    const matches = pointLayer.getLayers();
+    if (matches.length > 0) {
+      const first = matches[0].getLatLng();
+      map.setView(first, 16); // zoom in around 3500m equivalent (~16 in SF)
+    }
+  }
+}
+
+// --- Clear Filters function ---
+function clearFilters() {
+  document.getElementById('attendeeFilter').value = "0";
+  document.getElementById('styleFilter').value = "";
+  document.getElementById('nameSearch').value = "";
+  renderPoints();
+  map.setView([37.7749, -122.4194], 12);
+}
 
 // --- Hook up filter inputs ---
 ["attendeeFilter", "styleFilter", "nameSearch"].forEach(id => {
@@ -198,7 +209,7 @@ fetch('data/sfzipcodes.geojson')
       onEachFeature: onEachFeature
     }).addTo(map);
 
-    populateDropdown(); // Fill ZIP dropdown
+    populateDropdown();
   })
   .catch(error => console.error('Error loading ZIP layer:', error));
 
