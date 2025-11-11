@@ -220,7 +220,7 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
   complete: function(results) {
     const attributeData = results.data;
 
-    fetch("data/sfbars_coordsandneighborhoods_20250502.geojson")
+    fetch("data/sfbars_coordsandneighborhoods_20251111.geojson")
       .then(res => res.json())
       .then(pointGeojson => {
         pointGeojson.features.forEach(feature => {
