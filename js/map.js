@@ -119,7 +119,7 @@ function renderPoints() {
     map.removeLayer(pointLayer);
   }
 
-  const minVisited = parseInt(document.getElementById('attendeeFilter').value) || 0;
+  const selectedVisited = document.getElementById('attendeeFilter').value;
   const selectedStyle = document.getElementById('styleFilter').value;
   const searchText = document.getElementById('nameSearch').value.trim().toLowerCase();
 
