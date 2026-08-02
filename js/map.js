@@ -146,13 +146,13 @@ function renderPoints() {
       const count = parseFloat(props.VisitedByCount) || 0;
 
       function getColor(val) {
-        return val > 5 ? '#000000' :
-               val > 4 ? '#016C59' :
-               val > 3 ? '#1C9099' :
-               val > 2 ? '#67A9CF' :
-               val > 1 ? '#BDC9E1' :
-               val > 0 ? '#F6EFF7' :
-                         '#FFEDA0';
+        return val > 5 ? '#6B0C09' :
+               val > 4 ? '#10540B' :
+               val > 3 ? '#090C54' :
+               val > 2 ? '#8C1278' :
+               val > 1 ? '#224775' :
+               val > 0 ? '#A230B3' :
+                         '#F7F4bA';
       }
 
       const marker = L.circleMarker(latlng, {
