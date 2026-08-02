@@ -130,8 +130,13 @@ function renderPoints() {
       const style = (props.Style || "").toLowerCase();
       const name = (props["Bar Name"] || "").toLowerCase();
 
-      return (
-        visitedCount >= minVisited &&
+       const visitedMatch =
+        selectedVisited === ""
+            ? true
+            : visitedCount === parseInt(selectedVisited);
+
+    return (
+        visitedMatch &&
         (selectedStyle === "" || style === selectedStyle.toLowerCase()) &&
         (searchText === "" || name.includes(searchText))
       );
