@@ -298,7 +298,7 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
         populateStyleFilter(pointGeojson.features);
         renderPoints();
         
-    updateDashboard(stats);
       });
+    updateDashboard(stats);
   }
 });
