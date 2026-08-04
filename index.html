@@ -21,90 +21,108 @@
   <button id="sidebarToggle" title="Toggle Menu Sidebar">☰ Menu</button>
 
   <div id="main">
-    <div id="map"></div>
 
-   <div id="sidebar">
+  <div id="map"></div>
 
-<h3>Search</h3>
-<input id="nameSearch">
+  <div id="sidebar">
 
-<h3>Style</h3>
-<select id="styleFilter">
-    <option value="">All Styles</option>
-</select>
+    <h2>Menu</h2>
 
-<hr>
+    <!-- ZIP Filter -->
+    <label for="zipDropdown">ZIP Code</label>
+    <select id="zipDropdown">
+      <option value="">All ZIP Codes</option>
+    </select>
 
-<h3>People</h3>
+    <!-- Visited Filter -->
+    <label for="attendeeFilter">Already Visited</label>
+    <select id="attendeeFilter">
+      <option value="">No Selection</option>
+      <option value="0">Nobody</option>
+      <option value="1">1 Person</option>
+      <option value="2">2 People</option>
+      <option value="3">3 People</option>
+      <option value="4">4 People</option>
+      <option value="5">Everyone</option>
+    </select>
 
-<table id="peopleMatrix">
-<thead>
-<tr>
-<th></th>
-<th>A</th>
-<th>B</th>
-<th>C</th>
-<th>Br</th>
-<th>K</th>
-</tr>
-</thead>
+    <!-- Style Filter -->
+    <label for="styleFilter">Style</label>
+    <select id="styleFilter">
+      <option value="">All Styles</option>
+    </select>
 
-<tbody>
+    <!-- Name Search -->
+    <label for="nameSearch">Search by Name</label>
+    <input
+      id="nameSearch"
+      type="text"
+      placeholder="Start typing..."
+    >
 
-<tr>
-<td>Visited</td>
+    <button onclick="clearFilters()">Clear Filters</button>
 
-<td id="AllisonYes"></td>
-<td id="BenYes"></td>
-<td id="ChristinaYes"></td>
-<td id="BrianYes"></td>
-<td id="KyleYes"></td>
+    <hr>
 
-</tr>
+    <h3>People</h3>
 
-<tr>
+    <table id="peopleMatrix">
+      <thead>
+        <tr>
+          <th></th>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+          <th>Br</th>
+          <th>K</th>
+        </tr>
+      </thead>
 
-<td>Not</td>
+      <tbody>
 
-<td id="AllisonNo"></td>
-<td id="BenNo"></td>
-<td id="ChristinaNo"></td>
-<td id="BrianNo"></td>
-<td id="KyleNo"></td>
+        <tr>
+          <td>Visited</td>
+          <td id="AllisonYes"></td>
+          <td id="BenYes"></td>
+          <td id="ChristinaYes"></td>
+          <td id="BrianYes"></td>
+          <td id="KyleYes"></td>
+        </tr>
 
-</tr>
+        <tr>
+          <td>Not</td>
+          <td id="AllisonNo"></td>
+          <td id="BenNo"></td>
+          <td id="ChristinaNo"></td>
+          <td id="BrianNo"></td>
+          <td id="KyleNo"></td>
+        </tr>
 
-</tbody>
+      </tbody>
+    </table>
 
-</table>
+    <hr>
 
-<hr>
+    <h3>Group Visits</h3>
 
-<h3>Group Visits</h3>
+    <table id="groupTable">
+      <tbody>
+        <tr><td>Nobody</td><td id="group0"></td></tr>
+        <tr><td>1 Person</td><td id="group1"></td></tr>
+        <tr><td>2 People</td><td id="group2"></td></tr>
+        <tr><td>3 People</td><td id="group3"></td></tr>
+        <tr><td>4 People</td><td id="group4"></td></tr>
+        <tr><td>Everyone</td><td id="group5"></td></tr>
+      </tbody>
+    </table>
 
-<table id="groupTable">
+    <hr>
 
-<tbody>
+    <div id="barCount"></div>
 
-<tr><td>Nobody</td><td id="group0"></td></tr>
-<tr><td>1 Person</td><td id="group1"></td></tr>
-<tr><td>2 People</td><td id="group2"></td></tr>
-<tr><td>3 People</td><td id="group3"></td></tr>
-<tr><td>4 People</td><td id="group4"></td></tr>
-<tr><td>Everyone</td><td id="group5"></td></tr>
-
-</tbody>
-
-</table>
-
-<hr>
-
-<div id="barCount"></div>
-
-<button onclick="clearFilters()">Clear Filters</button>
+  </div>
 
 </div>
-
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="js/map.js"></script>
