@@ -207,8 +207,6 @@ if (count >= 0 && count <= 5) {
       return marker;
     }
   }).addTo(map);
-  
-  updateDashboard(stats);
 
   // If search by name, zoom to first matching bar
   if (searchText) {
@@ -219,6 +217,36 @@ if (count >= 0 && count <= 5) {
     }
   }
 }
+
+function updateDashboard(stats) {
+
+  // People
+  document.getElementById("AllisonYes").textContent = stats.people.Allison.yes;
+  document.getElementById("AllisonNo").textContent  = stats.people.Allison.no;
+
+  document.getElementById("BenYes").textContent = stats.people.Ben.yes;
+  document.getElementById("BenNo").textContent  = stats.people.Ben.no;
+
+  document.getElementById("ChristinaYes").textContent = stats.people.Christina.yes;
+  document.getElementById("ChristinaNo").textContent  = stats.people.Christina.no;
+
+  document.getElementById("BrianYes").textContent = stats.people.Brian.yes;
+  document.getElementById("BrianNo").textContent  = stats.people.Brian.no;
+
+  document.getElementById("KyleYes").textContent = stats.people.Kyle.yes;
+  document.getElementById("KyleNo").textContent  = stats.people.Kyle.no;
+
+  // Group counts
+  for (let i = 0; i <= 5; i++) {
+    document.getElementById("group" + i).textContent = stats.group[i];
+  }
+
+  // Total bars
+  document.getElementById("barCount").textContent =
+      `Showing ${stats.bars} bars`;
+}
+
+updateDashboard(stats);
 
 // --- Clear Filters function ---
 function clearFilters() {
