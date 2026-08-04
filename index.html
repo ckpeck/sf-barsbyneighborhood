@@ -14,7 +14,7 @@
 <body class="sidebar-hidden"> <!-- Sidebar starts hidden -->
 
   <header id="pageHeader">
-    <h1>Every dang bar in San Francisco</h1>
+    <h1>San Francisco Bar Tour</h1>
   </header>
 
   <!-- Toggle Button -->
@@ -23,39 +23,86 @@
   <div id="main">
     <div id="map"></div>
 
-    <div id="sidebar">
-  <h2>Filter Bars</h2>
+   <div id="sidebar">
 
-  <!-- Count Filter -->
-  <label for="attendeeFilter">Already Visited</label>
-  <select id="attendeeFilter">
-    <option value="">No Selection</option>
-    <option value="0">No one</option>
-    <option value="1">1 person</option>
-    <option value="2">2 people</option>
-    <option value="3">3 people</option>
-    <option value="4">4 people</option>
-    <option value="5">Everyone!</option>
-  </select>
+<h3>Search</h3>
+<input id="nameSearch">
 
-  <!-- Style Filter -->
-  <label for="styleFilter">Style</label>
-  <select id="styleFilter">
-    <option value="">No Selection</option>
-    <!-- We'll populate this dynamically -->
-  </select>
+<h3>Style</h3>
+<select id="styleFilter">
+    <option value="">All Styles</option>
+</select>
 
-  <!-- Bar Name Search -->
-  <label for="nameSearch">Search by Name</label>
-  <input type="text" id="nameSearch" placeholder="Bar Name" />
+<hr>
 
-  <!-- ZIP Dropdown stays -->
-  <label for="zipDropdown">ZIP</label>
-  <select id="zipDropdown">
-    <option value="">🔎 Select a ZIP Code</option>
+<h3>People</h3>
 
-  <button onclick="clearFilters()">Clear Filters</button>
-  </select>
+<table id="peopleMatrix">
+<thead>
+<tr>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>Br</th>
+<th>K</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Visited</td>
+
+<td id="AllisonYes"></td>
+<td id="BenYes"></td>
+<td id="ChristinaYes"></td>
+<td id="BrianYes"></td>
+<td id="KyleYes"></td>
+
+</tr>
+
+<tr>
+
+<td>Not</td>
+
+<td id="AllisonNo"></td>
+<td id="BenNo"></td>
+<td id="ChristinaNo"></td>
+<td id="BrianNo"></td>
+<td id="KyleNo"></td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<hr>
+
+<h3>Group Visits</h3>
+
+<table id="groupTable">
+
+<tbody>
+
+<tr><td>Nobody</td><td id="group0"></td></tr>
+<tr><td>1 Person</td><td id="group1"></td></tr>
+<tr><td>2 People</td><td id="group2"></td></tr>
+<tr><td>3 People</td><td id="group3"></td></tr>
+<tr><td>4 People</td><td id="group4"></td></tr>
+<tr><td>Everyone</td><td id="group5"></td></tr>
+
+</tbody>
+
+</table>
+
+<hr>
+
+<div id="barCount"></div>
+
+<button onclick="clearFilters()">Clear Filters</button>
+
 </div>
 
   <!-- Leaflet JS -->
