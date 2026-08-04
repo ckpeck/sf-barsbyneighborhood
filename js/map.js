@@ -222,7 +222,7 @@ if (count >= 0 && count <= 5) {
 
 // --- Clear Filters function ---
 function clearFilters() {
-  document.getElementById('attendeeFilter').value = "0";
+  document.getElementById('attendeeFilter').value = "";
   document.getElementById('styleFilter').value = "";
   document.getElementById('nameSearch').value = "";
   renderPoints();
