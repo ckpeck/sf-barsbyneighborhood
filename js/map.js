@@ -246,8 +246,6 @@ function updateDashboard(stats) {
       `Showing ${stats.bars} bars`;
 }
 
-updateDashboard(stats);
-
 // --- Clear Filters function ---
 function clearFilters() {
   document.getElementById('attendeeFilter').value = "";
@@ -299,6 +297,8 @@ Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQfR6CgMCiafL-VEP3oS
         allPointsGeoJSON = pointGeojson;
         populateStyleFilter(pointGeojson.features);
         renderPoints();
+        
+    updateDashboard(stats);
       });
   }
 });
