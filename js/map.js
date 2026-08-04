@@ -123,6 +123,18 @@ function renderPoints() {
   const selectedStyle = document.getElementById('styleFilter').value;
   const searchText = document.getElementById('nameSearch').value.trim().toLowerCase();
 
+  const stats = {
+  bars: 0,
+  people: {
+    Allison: { yes: 0, no: 0 },
+    Ben: { yes: 0, no: 0 },
+    Christina: { yes: 0, no: 0 },
+    Brian: { yes: 0, no: 0 },
+    Kyle: { yes: 0, no: 0 }
+  },
+  group: [0,0,0,0,0,0]
+};
+
   pointLayer = L.geoJSON(allPointsGeoJSON, {
     filter: feature => {
       const props = feature.properties;
@@ -162,6 +174,21 @@ function renderPoints() {
         fillOpacity: 0.85,
         weight: 1
       });
+      stats.bars++;
+
+["Allison","Ben","Christina","Brian","Kyle"].forEach(person => {
+
+    if ((props[person] || "").toLowerCase() === "yes") {
+        stats.people[person].yes++;
+    } else {
+        stats.people[person].no++;
+    }
+
+});
+
+if (count >= 0 && count <= 5) {
+    stats.group[count]++;
+}
 
       const popupContent = `
         <b>${props["Bar Name"] || "Unnamed Bar"}</b><br>
@@ -180,6 +207,8 @@ function renderPoints() {
       return marker;
     }
   }).addTo(map);
+  
+  updateDashboard(stats);
 
   // If search by name, zoom to first matching bar
   if (searchText) {
