@@ -106,16 +106,35 @@ body.sidebar-hidden #map {
   
   #main {
     flex-direction: column;
+    height: calc(100vh - 34px);
   }
 
   #map {
-    height: 60vh;
+    height: 100%;
     order: 1;
   }
 
   #sidebar {
-     top: 38px;
-    height: calc(100vh - 38px);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: auto;
+    height: 45vh;
+    max-height: 500px;
+
+    padding: 12px 15px;
+    box-sizing: border-box;
+
+    background: #f5f5f5;
+    border-left: none;
+    border-top: 2px solid #ddd;
+
+    overflow-y: auto;
+    z-index: 999;
+
+    order: initial;
   }
 
   #sidebarToggle {
