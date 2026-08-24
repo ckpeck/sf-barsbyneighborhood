@@ -86,7 +86,17 @@ body.sidebar-hidden #map {
 }
 
 /* MOBILE LAYOUT */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
+  #pageHeader {
+    height: 34px;
+    padding: 2px 0;
+  }
+
+  #pageHeader h1 {
+    font-size: 1rem;
+    line-height: 28px;
+  }
+  
   #main {
     flex-direction: column;
   }
