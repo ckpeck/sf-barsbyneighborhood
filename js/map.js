@@ -6,9 +6,7 @@ const map = L.map('map', {
   maxZoom: 18
 });
 
-L.tileLayer('https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=cb1_5d6k_1_974366723402a86cf192e849, {
-  attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors',
-  subdomains: 'abcd',
+L.tileLayer('https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=cb1_5d6k_1_974366723402a86cf192e849,
 }).addTo(map);
 
 // --- Global variables ---
