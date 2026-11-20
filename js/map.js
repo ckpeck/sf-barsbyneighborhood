@@ -6,7 +6,7 @@ const map = L.map('map', {
   maxZoom: 18
 });
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?KEY='pk.eyJ1IjoiY2hyaXN0aW5ha3BlY2siLCJhIjoiY213cGdxdHVxMGt2NjM1cTY3MGY1NW5mNiJ9.hc-WNaoIO-57fyZjg8zTdw', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png??key=cb1_5d6k_1_974366723402a86cf192e849, {
   attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors',
   subdomains: 'abcd',
 }).addTo(map);
